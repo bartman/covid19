@@ -10,3 +10,9 @@ Before you load the Jupyter notebook, grab the data set:
     git clone https://github.com/CSSEGISandData/COVID-19
 
 
+# Results
+
+Comparing some countries...
+
+![Countries](out/countries.png)
+
