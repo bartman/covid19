@@ -16,3 +16,6 @@ Comparing some countries...
 
 ![Countries](out/countries.png)
 
+Looking at Canadian provinces...
+
+![Canada](out/canada.png)
