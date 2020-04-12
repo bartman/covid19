@@ -158,16 +158,18 @@ def sinceplot(data, fig=None, ax=None,
         ylim = [1,5000]
         ax.set_yscale('log')
         showDoublingAtY = ylim[1] * (3/4)
+        doubleindays=[1,2,3,4,5,6,7,8,10,12,15,20]
     else:
         xlim = [-1,60]
         ylim = [0,2000]
         showDoublingAtY = ylim[1] - 100
+        doubleindays=[1,2,3,4,5,6,7,8]
 
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
 
-    # helper
-    def label_location(c):
+    # helper, returns (x,y,lastValue,daysToDouble), for country label
+    def build_label_data(c):
         pre = c.tail(5).head(1)
         px = int(pre['Since'])
         py = float(pre['ConfPer1M'])
@@ -182,7 +184,8 @@ def sinceplot(data, fig=None, ax=None,
         
         x2 = py / sl # days to double
 
-        #print("%-20s - %u, %f, %f" % (cn,ex,ey,x2))
+        #print("%-20s - %u..%u (%u), %.3f..%.3f (%.3f), %.3f, %.3f" % (cn,px,x,dx,py,y,dy,sl,x2))
+
         if x <= xlim[1] and y <= ylim[1]:
             return (x, y, y, x2)
         
@@ -236,7 +239,7 @@ def sinceplot(data, fig=None, ax=None,
                     
                 c.plot(kind='line',x='Since',y='ConfPer1M', label=cn, linewidth=linewidth, legend=legendOnSide, ax=ax)
                 
-                (ex,ey,v,x2) = label_location(c)
+                (ex,ey,v,x2) = build_label_data(c)
                 ax.text(ex, ey, cn, va='bottom', fontweight=textweight)
                 ax.text(ex, ey, "(%u, %.2f)"%(v,x2), va='top', fontweight=textweight, alpha=0.5)
                 
@@ -244,7 +247,7 @@ def sinceplot(data, fig=None, ax=None,
                 c.plot(kind='line',x='Since',y='ConfPer1M', legend=False, color='gray', alpha=0.2, ax=ax)
 
                 if nameUnfocusedCountries:
-                    (ex,ey,v,x2) = label_location(c)
+                    (ex,ey,v,x2) = build_label_data(c)
                     ax.text(ex, ey, cn, alpha=0.2)
                 
         except Exception as err:
@@ -259,7 +262,7 @@ def sinceplot(data, fig=None, ax=None,
             arr = np.asarray(arr)
             result = np.power(base,arr)
             return result
-        for doublein in [1,2,3,4,5,6,7,8,10,12,15,20]:
+        for doublein in doubleindays:
             base = np.power(2,1/doublein)
             x = np.linspace(0,60)
             y = double_daily(base,x)
