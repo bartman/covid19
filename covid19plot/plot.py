@@ -159,8 +159,8 @@ def sinceplot(data, fig=None, ax=None,
         ax.set_yscale('log')
         showDoublingAtY = ylim[1] * (3/4)
     else:
-        xlim = [-1,50]
-        ylim = [0,1700]
+        xlim = [-1,60]
+        ylim = [0,2000]
         showDoublingAtY = ylim[1] - 100
 
     ax.set_xlim(xlim)

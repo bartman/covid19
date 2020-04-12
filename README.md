@@ -23,3 +23,6 @@ Looking at Canadian provinces...
 Here is how countries are progressing...
 
 ![Country Trends](out/country-tends.png)
+
+![Country Trends Log](out/country-tends-log.png)
+
