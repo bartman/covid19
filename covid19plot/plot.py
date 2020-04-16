@@ -8,55 +8,20 @@ import math
 import world_bank_data as wb
 
 
-def simpleplot(data):
+def countryplot(data, countries, showIncrease=False):
     df = data.df
 
-    gbl = df.groupby(['Date'],as_index=False).agg(data.aggregation)
+    rows = 2 + (1 if showIncrease else 0);
 
-    cdn = df.loc[df['Country/Region'] == 'Canada']
-    cdn = cdn.groupby(['Country/Region','Date'],as_index=False).agg(data.aggregation)
-
-    usa = df.loc[df['Country/Region'] == 'US']
-    usa = usa.groupby(['Country/Region','Date'],as_index=False).agg(data.aggregation)
-
-    DATA = [{'n':'Global', 'df':gbl},
-            {'n':'US',     'df':usa},
-            {'n':'Canada', 'df':cdn}]
-
-    fig, axs = plt.subplots(2, len(DATA))
-
-    i=0
-    for d in DATA:
-        p = d['df']
-        
-        #print(d['n'])
-        #print(p)
-        
-        ax = axs[0][i]
-        ax.set_title(d['n'])
-        for col in data.numericalbase:
-            p.plot(kind='line',x='Date',y=col, color=data.numericalcolors[col], ax=ax)
-
-        ax = axs[1][i]
-        ax.set_yscale('log')
-        ax.set_title("%s (log)" % d['n'])
-        for col in data.numericalbase:
-            p.plot(kind='line',x='Date',y=col, color=data.numericalcolors[col], ax=ax)
-
-        i = i+1
-
-    return fig
-
-
-def countryplot(data, countries):
-    df = data.df
-
-    fig, axs = plt.subplots(3, len(countries))
+    fig, axs = plt.subplots(rows, len(countries))
 
     i = 0
     for country in countries:
-        p = df.loc[df['Country/Region'] == country]
-        p = p.groupby(['Country/Region','Date'],as_index=False).agg(data.aggregation)
+        if country == 'Global':
+            p = df.groupby(['Date'],as_index=False).agg(data.aggregation)
+        else:
+            p = df.loc[df['Country/Region'] == country]
+            p = p.groupby(['Country/Region','Date'],as_index=False).agg(data.aggregation)
 
         ax = axs[0][i]
         ax.set_title(country)
@@ -70,12 +35,13 @@ def countryplot(data, countries):
         for col in data.numericalbase:
             p.plot(kind='line',x='Date',y=col, color=data.numericalcolors[col], ax=ax)
 
-        ax = axs[2][i]
-        ax.set_title("%s (delta)" % country)
-        for col in data.numericalbase:
-            if col == "Active":
-                continue
-            p.plot(kind='line',x='Date',y="%sIncrease"%col, color=data.numericalcolors[col], ax=ax)
+        if showIncrease:
+            ax = axs[2][i]
+            ax.set_title("%s (delta)" % country)
+            for col in data.numericalbase:
+                if col == "Active":
+                    continue
+                p.plot(kind='line',x='Date',y="%sIncrease"%col, color=data.numericalcolors[col], ax=ax)
 
         i = i + 1
 
