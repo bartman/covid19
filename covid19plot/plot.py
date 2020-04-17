@@ -135,7 +135,7 @@ def sinceplot(data, fig=None, ax=None,
 
     # helper, returns (x,y,lastValue,daysToDouble), for country label
     def build_label_data(c):
-        pre = c.tail(5).head(1)
+        pre = c.tail(2).head(1)
         px = int(pre['Since'])
         py = float(pre['ConfPer1M'])
 
