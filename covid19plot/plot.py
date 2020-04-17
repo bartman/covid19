@@ -142,23 +142,34 @@ def sinceplot(data, fig=None, ax=None,
         end = c.tail(1)
         x = int(end['Since'])
         y = float(end['ConfPer1M'])
-        
-        dx = x-px    # days
-        dy = y-py    # increase
-        sl = dy/dx   # increase/days
-        
-        x2 = py / sl # days to double
 
-        #print("%-20s - %u..%u (%u), %.3f..%.3f (%.3f), %.3f, %.3f" % (cn,px,x,dx,py,y,dy,sl,x2))
+        if logScale:
+            dx = x-px    # days
+            dy = y-py    # increase
+            sl = dy/dx   # increase/days
+            
+            rt = py / sl # days to double
+            rtl = "dtd"  # describe "rt"
+
+        else:
+            dx = x-px    # days
+            dy = y-py    # increase
+            sl = dy / dx # increase/day
+
+            rt = sl
+            rtl = "Δ"    # describe "rt"
+
+        #print("%-20s - x=%u..%u (%u), y=%.3f..%.3f (%.3f), sl=%.3f, %s=%.3f"
+        #        % (cn,px,x,dx,py,y,dy,sl,rtl,rt))
 
         if x <= xlim[1] and y <= ylim[1]:
-            return (x, y, y, x2)
+            return (x, y, y, rt, rtl)
         
         # make it fit in the plot
         end = c[ (c['Since'] < xlim[1]) & (c['ConfPer1M'] < ylim[1]) ].tail(1)
         ex = int(end['Since'])
         ey = float(end['ConfPer1M'])
-        return (ex, ey, y, x2)
+        return (ex, ey, y, rt, rtl)
 
     # start plotting...
     for cn in countries:
@@ -204,15 +215,15 @@ def sinceplot(data, fig=None, ax=None,
                     
                 c.plot(kind='line',x='Since',y='ConfPer1M', label=cn, linewidth=linewidth, legend=legendOnSide, ax=ax)
                 
-                (ex,ey,v,x2) = build_label_data(c)
+                (ex,ey,v,rt,rtl) = build_label_data(c)
                 ax.text(ex, ey, cn, va='bottom', fontweight=textweight)
-                ax.text(ex, ey, "(%u, %.2f)"%(v,x2), va='top', fontweight=textweight, alpha=0.5)
+                ax.text(ex, ey, "(%u, %s=%.2f)"%(v,rtl,rt), va='top', fontweight=textweight, alpha=0.5)
                 
             else:
                 c.plot(kind='line',x='Since',y='ConfPer1M', legend=False, color='gray', alpha=0.2, ax=ax)
 
                 if nameUnfocusedCountries:
-                    (ex,ey,v,x2) = build_label_data(c)
+                    (ex,ey,v,rt,rtl) = build_label_data(c)
                     ax.text(ex, ey, cn, alpha=0.2)
                 
         except Exception as err:
