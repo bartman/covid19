@@ -112,8 +112,7 @@ def sinceplot(data, fig=None, ax=None,
 
     # these are all the countries...
     countries = d['Country/Region'].unique()
-    countries = focus
-
+    #countries = focus
 
     # create a plot...
     if not fig or not ax:
@@ -126,8 +125,8 @@ def sinceplot(data, fig=None, ax=None,
         showDoublingAtY = ylim[1] * (3/4)
         doubleindays=[1,2,3,4,5,6,7,8,10,12,15,20]
     else:
-        xlim = [-1,60]
-        ylim = [0,2000]
+        xlim = [10,60]
+        ylim = [0,2500]
         showDoublingAtY = ylim[1] - 100
         doubleindays=[1,2,3,4,5,6,7,8]
 
@@ -217,11 +216,11 @@ def sinceplot(data, fig=None, ax=None,
                     ax.text(ex, ey, cn, alpha=0.2)
                 
         except Exception as err:
-            print(cn,err)
+            #print(cn,err)
             if cn == "Angola":
                 pass
-            raise err
-            #pass
+            #raise err
+            pass
 
     if showDoublingAtY:
         def double_daily(base, arr):
