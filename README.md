@@ -14,11 +14,15 @@ Before you load the Jupyter notebook, grab the data set:
 
 Comparing some countries...
 
-![Countries](out/countries.png)
+<a href=https://raw.githubusercontent.com/bartman/covid19/master/out/countries.png>
+    <img src=out/countries.png>
+    </a>
 
 Looking at Canadian provinces...
 
-![Canada](out/canada.png)
+<a href=https://raw.githubusercontent.com/bartman/covid19/master/out/canada.png>
+    <img src=out/canada.png>
+    </a>
 
 Look at Confirmed cases in a few western countries...
 
