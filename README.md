@@ -22,7 +22,12 @@ Looking at Canadian provinces...
 
 Here is how countries are progressing...
 
-![Country Trends](out/country-tends.png)
+![Confirmed](out/country-confirmed.png)
 
-![Country Trends Log](out/country-tends-log.png)
+![Confirmed Log](out/country-confirmed-log.png)
+
+![Deaths](out/country-deaths.png)
+
+![Deaths Log](out/country-deaths-log.png)
+
 

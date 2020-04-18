@@ -88,10 +88,14 @@ def countryregionplot(data, country, regions):
 
 
 def sinceplot(data, fig=None, ax=None,
-        logScale = False, startCountingAfter = 1, startCountingAfter1M = True,
+        logScale = False, dataColumn='Confirmed',
+        startCountingAfter = 1, startCountingAfter1M = True,
         nameUnfocusedCountries = False, legendOnSide = False):
 
     df = data.df
+
+    if not dataColumn in data.numericalbase:
+        raise "cannot plot %s" % dataColumn
 
     # we will get the population of each country from this data set...
     pop = wb.get_series('SP.POP.TOTL', mrv=1).reset_index()
@@ -119,14 +123,22 @@ def sinceplot(data, fig=None, ax=None,
         fig, ax = plt.subplots(1,1)
 
     if logScale:
-        xlim = [-1,60]
-        ylim = [1,5000]
+        if dataColumn == 'Confirmed':
+            xlim = [-1,60]
+            ylim = [1,5000]
+        else:
+            xlim = [-1,60]
+            ylim = [1,500]
         ax.set_yscale('log')
         showDoublingAtY = ylim[1] * (3/4)
         doubleindays=[1,2,3,4,5,6,7,8,10,12,15,20]
     else:
-        xlim = [10,60]
-        ylim = [0,2500]
+        if dataColumn == 'Confirmed':
+            xlim = [0,60]
+            ylim = [0,2500]
+        else:
+            xlim = [0,60]
+            ylim = [0,500]
         showDoublingAtY = ylim[1] - 100
         doubleindays=[1,2,3,4,5,6,7,8]
 
@@ -137,18 +149,18 @@ def sinceplot(data, fig=None, ax=None,
     def build_label_data(c):
         pre = c.tail(2).head(1)
         px = int(pre['Since'])
-        py = float(pre['ConfPer1M'])
+        py = float(pre['Per1M'])
 
         end = c.tail(1)
         x = int(end['Since'])
-        y = float(end['ConfPer1M'])
+        y = float(end['Per1M'])
 
         if logScale:
             dx = x-px    # days
             dy = y-py    # increase
             sl = dy/dx   # increase/days
             
-            rt = py / sl # days to double
+            rt = y / sl  # days to double
             rtl = "dtd"  # describe "rt"
 
         else:
@@ -166,9 +178,9 @@ def sinceplot(data, fig=None, ax=None,
             return (x, y, y, rt, rtl)
         
         # make it fit in the plot
-        end = c[ (c['Since'] < xlim[1]) & (c['ConfPer1M'] < ylim[1]) ].tail(1)
+        end = c[ (c['Since'] < xlim[1]) & (c['Per1M'] < ylim[1]) ].tail(1)
         ex = int(end['Since'])
-        ey = float(end['ConfPer1M'])
+        ey = float(end['Per1M'])
         return (ex, ey, y, rt, rtl)
 
     # start plotting...
@@ -194,12 +206,12 @@ def sinceplot(data, fig=None, ax=None,
                 
         try:
             c = d[d['Country/Region'] == cn].copy()
-            c['ConfPer1M'] = c['Confirmed'] * 1000000 / num
+            c['Per1M'] = c[dataColumn] * 1000000 / num
             
             if startCountingAfter1M:
-                idx = c[c['ConfPer1M'].ge(startCountingAfter)].index[0]
+                idx = c[c['Per1M'].ge(startCountingAfter)].index[0]
             else:
-                idx = c[c['Confirmed'].ge(startCountingAfter)].index[0]
+                idx = c[c[dataColumn].ge(startCountingAfter)].index[0]
                 
             s = c.loc[idx]['Date']
             c['Since'] = c['Date'] - s
@@ -213,14 +225,14 @@ def sinceplot(data, fig=None, ax=None,
                     linewidth=2
                     textweight='bold'
                     
-                c.plot(kind='line',x='Since',y='ConfPer1M', label=cn, linewidth=linewidth, legend=legendOnSide, ax=ax)
+                c.plot(kind='line',x='Since',y='Per1M', label=cn, linewidth=linewidth, legend=legendOnSide, ax=ax)
                 
                 (ex,ey,v,rt,rtl) = build_label_data(c)
                 ax.text(ex, ey, cn, va='bottom', fontweight=textweight)
                 ax.text(ex, ey, "(%u, %s=%.2f)"%(v,rtl,rt), va='top', fontweight=textweight, alpha=0.5)
                 
             else:
-                c.plot(kind='line',x='Since',y='ConfPer1M', legend=False, color='gray', alpha=0.2, ax=ax)
+                c.plot(kind='line',x='Since',y='Per1M', legend=False, color='gray', alpha=0.2, ax=ax)
 
                 if nameUnfocusedCountries:
                     (ex,ey,v,rt,rtl) = build_label_data(c)
@@ -253,11 +265,16 @@ def sinceplot(data, fig=None, ax=None,
             if doublein == 1:
                 plt.text(x, y, "double in ", color='red', alpha=0.5, ha='right')
 
-    if startCountingAfter1M:
-        ax.set_xlabel("Days since %u confirmed cases / 1M population" % startCountingAfter)
+    if dataColumn == 'Confirmed':
+        dataDesc = 'Confirmed cases'
     else:
-        ax.set_xlabel("Days since %u confirmed cases" % startCountingAfter)
-    ax.set_ylabel("Confirmed cases per 1M population")
+        dataDesc = dataColumn
+    if startCountingAfter1M:
+        ax.set_xlabel("Days since %u %s / 1M population" % (startCountingAfter, dataDesc))
+    else:
+        ax.set_xlabel("Days since %u %s" % (startCountingAfter, dataDesc))
+
+    ax.set_ylabel("%s per 1M population" % dataDesc)
 
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
