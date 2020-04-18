@@ -22,18 +22,25 @@ Looking at Canadian provinces...
 
 Look at Confirmed cases in a few western countries...
 
-![Confirmed](out/country-confirmed.png)
+<a href=https://raw.githubusercontent.com/bartman/covid19/master/out/country-confirmed.png>
+    <img src=out/country-confirmed.png>
+    </a>
 
 logarithmic...
 
-![Confirmed Log](out/country-confirmed-log.png)
+<a href=https://raw.githubusercontent.com/bartman/covid19/master/out/country-confirmed-log.png>
+    <img src=out/country-confirmed-log.png>
+    </a>
 
 Look at Deaths...
 
-![Deaths](out/country-deaths.png)
+<a href=https://raw.githubusercontent.com/bartman/covid19/master/out/country-deaths.png>
+    <img src=out/country-deaths.png>
+    </a>
 
 logarithmic...
 
-![Deaths Log](out/country-deaths-log.png)
-
+<a href=https://raw.githubusercontent.com/bartman/covid19/master/out/country-deaths-log.png>
+    <img src=out/country-deaths-log.png>
+    </a>
 
