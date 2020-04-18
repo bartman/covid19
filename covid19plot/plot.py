@@ -128,7 +128,7 @@ def sinceplot(data, fig=None, ax=None,
             ylim = [1,5000]
         else:
             xlim = [-1,60]
-            ylim = [1,500]
+            ylim = [1,300]
         ax.set_yscale('log')
         showDoublingAtY = ylim[1] * (3/4)
         doubleindays=[1,2,3,4,5,6,7,8,10,12,15,20]
@@ -138,7 +138,7 @@ def sinceplot(data, fig=None, ax=None,
             ylim = [0,2500]
         else:
             xlim = [0,60]
-            ylim = [0,500]
+            ylim = [0,200]
         showDoublingAtY = ylim[1] - 100
         doubleindays=[1,2,3,4,5,6,7,8]
 
