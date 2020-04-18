@@ -20,13 +20,19 @@ Looking at Canadian provinces...
 
 ![Canada](out/canada.png)
 
-Here is how countries are progressing...
+Look at Confirmed cases in a few western countries...
 
 ![Confirmed](out/country-confirmed.png)
 
+logarithmic...
+
 ![Confirmed Log](out/country-confirmed-log.png)
 
+Look at Deaths...
+
 ![Deaths](out/country-deaths.png)
+
+logarithmic...
 
 ![Deaths Log](out/country-deaths-log.png)
 
