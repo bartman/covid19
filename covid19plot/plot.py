@@ -125,7 +125,7 @@ def sinceplot(data, fig=None, ax=None,
     if logScale:
         if dataColumn == 'Confirmed':
             xlim = [-1,60]
-            ylim = [1,5000]
+            ylim = [1,6000]
         else:
             xlim = [-1,60]
             ylim = [1,300]
@@ -135,7 +135,7 @@ def sinceplot(data, fig=None, ax=None,
     else:
         if dataColumn == 'Confirmed':
             xlim = [0,60]
-            ylim = [0,2500]
+            ylim = [0,2600]
         else:
             xlim = [0,60]
             ylim = [0,200]
