@@ -128,17 +128,17 @@ def sinceplot(data, fig=None, ax=None,
             ylim = [1,6000]
         else:
             xlim = [-1,60]
-            ylim = [1,300]
+            ylim = [1,700]
         ax.set_yscale('log')
         showDoublingAtY = ylim[1] * (3/4)
         doubleindays=[1,2,3,4,5,6,7,8,10,12,15,20]
     else:
         if dataColumn == 'Confirmed':
             xlim = [0,60]
-            ylim = [0,2600]
+            ylim = [0,2800]
         else:
             xlim = [0,60]
-            ylim = [0,200]
+            ylim = [0,300]
         showDoublingAtY = ylim[1] - 100
         doubleindays=[1,2,3,4,5,6,7,8]
 
