@@ -124,21 +124,21 @@ def sinceplot(data, fig=None, ax=None,
 
     if logScale:
         if dataColumn == 'Confirmed':
-            xlim = [-1,60]
+            xlim = [-1,70]
             ylim = [1,6000]
         else:
-            xlim = [-1,60]
+            xlim = [-1,70]
             ylim = [1,700]
         ax.set_yscale('log')
         showDoublingAtY = ylim[1] * (3/4)
         doubleindays=[1,2,3,4,5,6,7,8,10,12,15,20]
     else:
         if dataColumn == 'Confirmed':
-            xlim = [0,60]
-            ylim = [0,2800]
+            xlim = [0,70]
+            ylim = [0,3000]
         else:
-            xlim = [0,60]
-            ylim = [0,300]
+            xlim = [0,70]
+            ylim = [0,350]
         showDoublingAtY = ylim[1] - 100
         doubleindays=[1,2,3,4,5,6,7,8]
 
