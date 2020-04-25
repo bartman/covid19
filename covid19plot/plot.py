@@ -252,7 +252,7 @@ def sinceplot(data, fig=None, ax=None,
             return result
         for doublein in doubleindays:
             base = np.power(2,1/doublein)
-            x = np.linspace(0,60)
+            x = np.linspace(0,xlim[1])
             y = double_daily(base,x)
             plt.plot(x,y,color='red',alpha=0.25,linestyle=':')
             y = showDoublingAtY
