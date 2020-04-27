@@ -269,6 +269,11 @@ def sinceplot(data, fig=None, ax=None,
         dataDesc = 'Confirmed cases'
     else:
         dataDesc = dataColumn
+
+    ax.set_title("%s per population, since %u observed %s"
+            % (dataDesc, startCountingAfter, "(logarithmic)" if logScale else ""),
+            fontsize=20)
+
     if startCountingAfter1M:
         ax.set_xlabel("Days since %u %s / 1M population" % (startCountingAfter, dataDesc))
     else:
