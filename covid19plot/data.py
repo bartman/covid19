@@ -1,4 +1,5 @@
 import pandas as pd
+import subprocess
 
 class dotdict(dict):
     """dot.notation access to dictionary attributes"""
@@ -113,7 +114,7 @@ def importdata():
     df.to_csv("csse-combined.csv", index=False)
 
     # --------------------------------------------------
-    # dump
+    # df dump
 
     #for c in df.columns:
     #    u = df[c].unique()
@@ -130,11 +131,32 @@ def importdata():
     #print("--")
     #print(x[x['Date'] == datetime(2020,3,31)])
 
+    # --------------------------------------------------
+    # collect git info
+
+    gitdir = 'COVID-19'
+    
+    result = subprocess.run(['git','log','-1','--pretty=format:%h'], cwd=gitdir, stdout=subprocess.PIPE)
+    githash = result.stdout.decode('utf-8').strip()
+
+    result = subprocess.run(['git','log','-1','--pretty=format:%ad','--date=short'], cwd=gitdir, stdout=subprocess.PIPE)
+    gitdate = result.stdout.decode('utf-8').strip()
+
+    result = subprocess.run(['git', 'remote', 'get-url', 'origin'], cwd=gitdir, stdout=subprocess.PIPE)
+    giturl = result.stdout.decode('utf-8').strip()
+
+    # --------------------------------------------------
+    # return
+
     ret = {
             'df':df,
             'aggregation':aggregation,
             'numericalbase':numericalbase,
             'numericalcolors':numericalcolors,
+            'gitdir':gitdir,
+            'githash':githash,
+            'gitdate':gitdate,
+            'giturl':giturl,
             }
 
     return dotdict(ret)

@@ -284,5 +284,8 @@ def sinceplot(data, fig=None, ax=None,
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
 
+    caption = "%s @ %s (%s)" % (data.giturl, data.gitdate, data.githash)
+    ax.text(0.5, -0.05, caption, size=8, ha="center", transform=ax.transAxes)
+
     return fig
 
