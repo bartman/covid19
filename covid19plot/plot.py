@@ -127,7 +127,7 @@ def sinceplot(data, fig=None, ax=None,
             xlim = [-1,80]
             ylim = [1,6000]
         else:                           # log deaths
-            xlim = [-1,70]
+            xlim = [-1,60]
             ylim = [1,700]
         ax.set_yscale('log')
         showDoublingAtY = ylim[1] * (3/4)
@@ -137,8 +137,8 @@ def sinceplot(data, fig=None, ax=None,
             xlim = [0,80]
             ylim = [0,4000]
         else:                           # deaths confirmed
-            xlim = [0,70]
-            ylim = [0,400]
+            xlim = [0,60]
+            ylim = [0,500]
         showDoublingAtY = ylim[1] - 100
         doubleindays=[1,2,3,4,5,6,7,8]
 
