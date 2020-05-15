@@ -155,19 +155,20 @@ def sinceplot(data, fig=None, ax=None,
         x = int(end['Since'])
         y = float(end['Per1M'])
 
-        if logScale:
-            dx = x-px    # days
-            dy = y-py    # increase
+        dx = x-px    # days
+        dy = y-py    # increase
+
+        sl = 0
+        if dx:
             sl = dy/dx   # increase/days
-            
-            rt = y / sl  # days to double
+
+        if logScale:
+            rt = 0
+            if sl:
+                rt = y / sl  # days to double
             rtl = "dtd"  # describe "rt"
 
         else:
-            dx = x-px    # days
-            dy = y-py    # increase
-            sl = dy / dx # increase/day
-
             rt = sl
             rtl = "Δ"    # describe "rt"
 
