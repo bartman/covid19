@@ -324,8 +324,8 @@ def severityplot(data, fig=None, ax=None, logScale = False, quick=False,
         fig, ax = plt.subplots(1,1)
 
     if logScale:
-        xlim = [0.1,6000]
-        ylim = [0.1,1000]
+        xlim = [10,10000]
+        ylim = [0.1,2000]
         ax.set_xscale('log')
         ax.set_yscale('log')
     else:
