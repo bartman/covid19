@@ -290,3 +290,139 @@ def sinceplot(data, fig=None, ax=None,
 
     return fig
 
+def severityplot(data, fig=None, ax=None, logScale = False, quick=False,
+        nameUnfocusedCountries = False, legendOnSide = False):
+
+    df = data.df
+
+    # we will get the population of each country from this data set...
+    pop = wb.get_series('SP.POP.TOTL', mrv=1).reset_index()
+    #print(pop['Country'].unique())
+    # some countries in the pop database have different names
+    popnames = {'US':'United States',
+               'Korea, South':'Korea, Rep.',
+               'Russia':'Russian Federation'}
+
+    # countries we want to show in colour...
+    if quick:
+        focus = ['Canada','US']
+    else:
+        focus = ['Canada','US','China','Korea, South','United Kingdom','Poland','Mexico','Italy','Spain','France','Germany','Russia','Japan','Belgium','Norway','Austria','Australia','Sweden','Denmark','Singapore','Malaysia','Switzerland','Finland','Portugal']
+
+    # aggregate data...
+    pc = ['Country/Region', 'Province/State', 'Date', 'Confirmed', 'ConfirmedIncrease', 'Deaths', 'DeathsIncrease', 'Recovered', 'RecoveredIncrease', 'Active', 'ActiveIncrease']
+    d = df[pc]
+    d = d.groupby(['Country/Region','Date'],as_index=False).agg(data.aggregation)
+
+    # these are all the countries...
+    countries = d['Country/Region'].unique()
+    if quick:
+        countries = focus
+
+    # create a plot...
+    if not fig or not ax:
+        fig, ax = plt.subplots(1,1)
+
+    if logScale:
+        xlim = [0.1,6000]
+        ylim = [0.1,1000]
+        ax.set_xscale('log')
+        ax.set_yscale('log')
+    else:
+        xlim = [0,6000]
+        ylim = [0,800]
+
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+
+    # helper, returns (x,y,lastValue,daysToDouble), for country label
+    def build_label_data(c):
+        end = c.tail(1)
+        x = float(end['ConfirmedPer1M'])
+        y = float(end['DeathsPer1M'])
+
+        if x>=1:
+            p = float(y*100)/x
+            lab = "(%u/%u, %.2f%%)" % (y,x,p)
+        else:
+            lab = "(%u/%u)" % (y,x)
+
+        if x <= xlim[1] and y <= ylim[1]:
+            return (x, y, lab)
+        
+        # make it fit in the plot
+        end = c[ (c['ConfirmedPer1M'] < xlim[1]) & (c['DeathsPer1M'] < ylim[1]) ].tail(1)
+        ex = float(end['ConfirmedPer1M'])
+        ey = float(end['DeathsPer1M'])
+        return (ex, ey, lab)
+
+    # start plotting...
+    for cn in countries:
+        #print("--- %s ---" % cn)
+        
+        # figure out how many people live in the country
+        pn = cn
+        if cn in popnames.keys():
+            pn = popnames[cn]
+        
+        num = 0
+        try:
+            num = int(pop[pop['Country'] == pn]['SP.POP.TOTL'])
+        except Exception as err:
+            if cn in focus:
+                print(cn,err)
+            pass
+        
+        # skip countries with low populations
+        if num < 1000000:
+            continue
+                
+        try:
+            c = d[d['Country/Region'] == cn].copy()
+            c['ConfirmedPer1M'] = c['Confirmed'] * 1000000 / num
+            c['DeathsPer1M'] = c['Deaths'] * 1000000 / num
+            
+            if cn in focus:
+                linewidth=1
+                textweight='normal'
+                if cn in ['Canada','US']:
+                    linewidth=2
+                    textweight='bold'
+                    
+                c.plot(kind='line',x='ConfirmedPer1M',y='DeathsPer1M', label=cn, linewidth=linewidth, legend=legendOnSide, ax=ax)
+                
+                (ex,ey,lab) = build_label_data(c)
+                ax.text(ex, ey, cn, va='bottom', fontweight=textweight)
+                ax.text(ex, ey, lab, va='top', fontweight=textweight, alpha=0.5)
+                
+            else:
+                c.plot(kind='line',x='ConfirmedPer1M',y='DeathsPer1M', legend=False, color='gray', alpha=0.2, ax=ax)
+
+                if nameUnfocusedCountries:
+                    (ex,ey,lab) = build_label_data(c)
+                    ax.text(ex, ey, cn, alpha=0.2)
+                
+        except Exception as err:
+            #print(cn,err)
+            if cn == "Angola":
+                pass
+            #raise err
+            pass
+
+    dataDesc = 'Deaths per Confirmed cases'
+
+    ax.set_title("%s, per population %s"
+            % (dataDesc, "(logarithmic)" if logScale else ""),
+            fontsize=20)
+
+    ax.set_xlabel("Confirmed cases per 1M population")
+    ax.set_ylabel("Deaths per 1M population")
+
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+
+    caption = "%s @ %s (%s)" % (data.giturl, data.gitdate, data.githash)
+    ax.text(0.5, -0.05, caption, size=8, ha="center", transform=ax.transAxes)
+
+    return fig
+
