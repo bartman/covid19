@@ -12,19 +12,19 @@ Before you load the Jupyter notebook, grab the data set:
 
 # Results
 
-Comparing some countries...
+## Comparing some countries...
 
 <a href=https://raw.githubusercontent.com/bartman/covid19/master/out/countries.png>
     <img src=out/countries.png>
     </a>
 
-Looking at Canadian provinces...
+## Looking at Canadian provinces...
 
 <a href=https://raw.githubusercontent.com/bartman/covid19/master/out/canada.png>
     <img src=out/canada.png>
     </a>
 
-Look at Confirmed cases in a few western countries...
+## Look at Confirmed cases in a few western countries...
 
 <a href=https://raw.githubusercontent.com/bartman/covid19/master/out/country-confirmed.png>
     <img src=out/country-confirmed.png>
@@ -36,7 +36,7 @@ logarithmic...
     <img src=out/country-confirmed-log.png>
     </a>
 
-Look at Deaths...
+## Look at Deaths...
 
 <a href=https://raw.githubusercontent.com/bartman/covid19/master/out/country-deaths.png>
     <img src=out/country-deaths.png>
@@ -47,4 +47,17 @@ logarithmic...
 <a href=https://raw.githubusercontent.com/bartman/covid19/master/out/country-deaths-log.png>
     <img src=out/country-deaths-log.png>
     </a>
+
+## Deaths per Confirmed cases...
+
+<a href=https://raw.githubusercontent.com/bartman/covid19/master/out/country-deaths-per-confirmed.png>
+    <img src=out/country-deaths-per-confirmed-log.png>
+    </a>
+
+logarithmic...
+
+<a href=https://raw.githubusercontent.com/bartman/covid19/master/out/country-deaths-per-confirmed-log.png>
+    <img src=out/country-deaths-per-confirmed.png>
+    </a>
+
 
