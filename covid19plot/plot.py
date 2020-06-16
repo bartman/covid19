@@ -122,23 +122,21 @@ def sinceplot(data, fig=None, ax=None,
     if not fig or not ax:
         fig, ax = plt.subplots(1,1)
 
+    if dataColumn == 'Confirmed':   # confirmed
+        xlim = [0,120]
+        ylim = [0,7000]
+    else:                           # deaths
+        xlim = [0,100]
+        ylim = [0,850]
+
     if logScale:
-        if dataColumn == 'Confirmed':   # log confirmed
-            xlim = [-1,110]
-            ylim = [1,7000]
-        else:                           # log deaths
-            xlim = [-1,90]
-            ylim = [1,1000]
+        xlim[0] = -1
+        ylim[0] = 1
+        ylim[1] *= 1.3
         ax.set_yscale('log')
         showDoublingAtY = ylim[1] * (3/4)
         doubleindays=[1,2,3,4,5,6,7,8,10,12,15,20]
     else:
-        if dataColumn == 'Confirmed':   # linear confirmed
-            xlim = [0,110]
-            ylim = [0,6000]
-        else:                           # deaths confirmed
-            xlim = [0,90]
-            ylim = [0,700]
         showDoublingAtY = ylim[1] - 100
         doubleindays=[1,2,3,4,5,6,7,8]
 
