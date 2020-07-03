@@ -123,10 +123,10 @@ def sinceplot(data, fig=None, ax=None,
         fig, ax = plt.subplots(1,1)
 
     if dataColumn == 'Confirmed':   # confirmed
-        xlim = [0,130]
-        ylim = [0,7500]
+        xlim = [0,140]
+        ylim = [0,9000]
     else:                           # deaths
-        xlim = [0,110]
+        xlim = [0,120]
         ylim = [0,900]
 
     if logScale:
@@ -327,7 +327,7 @@ def severityplot(data, fig=None, ax=None, logScale = False, quick=False,
         ax.set_xscale('log')
         ax.set_yscale('log')
     else:
-        xlim = [0,8000]
+        xlim = [0,9000]
         ylim = [0,900]
 
     ax.set_xlim(xlim)
