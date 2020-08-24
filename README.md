@@ -51,13 +51,13 @@ logarithmic...
 ## Deaths per Confirmed cases...
 
 <a href=https://raw.githubusercontent.com/bartman/covid19/master/out/country-deaths-per-confirmed.png>
-    <img src=out/country-deaths-per-confirmed-log.png>
+    <img src=out/country-deaths-per-confirmed.png>
     </a>
 
 logarithmic...
 
 <a href=https://raw.githubusercontent.com/bartman/covid19/master/out/country-deaths-per-confirmed-log.png>
-    <img src=out/country-deaths-per-confirmed.png>
+    <img src=out/country-deaths-per-confirmed-log.png>
     </a>
 
 
