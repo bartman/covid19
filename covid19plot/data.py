@@ -151,6 +151,7 @@ def importdata():
     ret = {
             'df':df,
             'aggregation':aggregation,
+            'numerical':numerical,
             'numericalbase':numericalbase,
             'numericalcolors':numericalcolors,
             'gitdir':gitdir,

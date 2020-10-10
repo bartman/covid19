@@ -94,8 +94,8 @@ def sinceplot(data, fig=None, ax=None,
 
     df = data.df
 
-    if not dataColumn in data.numericalbase:
-        raise "cannot plot %s" % dataColumn
+    if not dataColumn in data.numerical:
+        raise Exception("cannot plot %s" % dataColumn)
 
     # we will get the population of each country from this data set...
     pop = wb.get_series('SP.POP.TOTL', mrv=1).reset_index()
@@ -125,9 +125,15 @@ def sinceplot(data, fig=None, ax=None,
     if dataColumn == 'Confirmed':   # confirmed
         xlim = [0,250]
         ylim = [0,20000]
-    else:                           # deaths
+    elif dataColumn == 'ConfirmedIncrease':   # delta in confirmed
+        xlim = [0,250]
+        ylim = [0,500]
+    elif dataColumn == 'Deaths':   # deaths
         xlim = [0,220]
         ylim = [0,900]
+    else:                           # delta in deaths
+        xlim = [0,220]
+        ylim = [0,50]
 
     if logScale:
         xlim[0] = -1
